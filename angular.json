@@ -2,5 +2,163 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "ngx-okta-auth": {
+      "projectType": "library",
+      "root": "projects/ngx-okta-auth",
+      "sourceRoot": "projects/ngx-okta-auth/src",
+      "prefix": "auth",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-okta-auth/tsconfig.lib.json",
+            "project": "projects/ngx-okta-auth/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-okta-auth/src/test.ts",
+            "tsConfig": "projects/ngx-okta-auth/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-okta-auth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-okta-auth/tsconfig.lib.json",
+              "projects/ngx-okta-auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-okta-auth-example": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngx-okta-auth-example",
+      "sourceRoot": "projects/ngx-okta-auth-example/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngx-okta-auth-example",
+            "index": "projects/ngx-okta-auth-example/src/index.html",
+            "main": "projects/ngx-okta-auth-example/src/main.ts",
+            "polyfills": "projects/ngx-okta-auth-example/src/polyfills.ts",
+            "tsConfig": "projects/ngx-okta-auth-example/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/ngx-okta-auth-example/src/favicon.ico",
+              "projects/ngx-okta-auth-example/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-okta-auth-example/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-okta-auth-example/src/environments/environment.ts",
+                  "with": "projects/ngx-okta-auth-example/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-okta-auth-example:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-okta-auth-example:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-okta-auth-example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-okta-auth-example/src/test.ts",
+            "polyfills": "projects/ngx-okta-auth-example/src/polyfills.ts",
+            "tsConfig": "projects/ngx-okta-auth-example/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-okta-auth-example/karma.conf.js",
+            "assets": [
+              "projects/ngx-okta-auth-example/src/favicon.ico",
+              "projects/ngx-okta-auth-example/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-okta-auth-example/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-okta-auth-example/tsconfig.app.json",
+              "projects/ngx-okta-auth-example/tsconfig.spec.json",
+              "projects/ngx-okta-auth-example/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngx-okta-auth-example/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-okta-auth-example:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-okta-auth-example:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "ngx-okta-auth"
 }

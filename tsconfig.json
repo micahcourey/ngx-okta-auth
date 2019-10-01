@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-okta-auth": [
+        "dist/ngx-okta-auth"
+      ],
+      "ngx-okta-auth/*": [
+        "dist/ngx-okta-auth/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
