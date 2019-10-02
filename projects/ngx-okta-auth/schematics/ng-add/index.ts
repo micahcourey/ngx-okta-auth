@@ -1,33 +1,94 @@
-import { Rule, Tree } from '@angular-devkit/schematics';
-import { getWorkspace } from '@schematics/angular/utility/config';
-import { addModuleImportToRootModule, getProjectFromWorkspace } from 'schematics-utilities';
+import { chain, noop, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  addModuleImportToRootModule,
+  addPackageJsonDependency,
+  getProjectFromWorkspace,
+  getWorkspace,
+  NodeDependency,
+  NodeDependencyType
+} from 'schematics-utilities';
 
-export default function(options: any): Rule {
-  return (host: Tree) => {
-    // get the workspace config of the consuming project
-    // i.e. angular.json file
-    const workspace = getWorkspace(host);
+import { Schema } from './schema';
 
-    // identify the project config which is using our library
-    // or default to the default project in consumer workspace
-    const project = getProjectFromWorkspace(
-      workspace,
-      options.project || workspace.defaultProject
-    );
+function addPackageJsonDependencies(): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    const dependencies: NodeDependency[] = [
+      { type: NodeDependencyType.Default, version: '~8.2.8', name: '@angular/elements' },
+      { type: NodeDependencyType.Default, version: '~1.1.0', name: '@webcomponents/custom-elements' },
+      { type: NodeDependencyType.Default, version: '^0.0.2', name: 'ngx-okta-auth' }
+    ];
 
-    // inject our module into the current main module of the selected project
-    addModuleImportToRootModule(
-      // tree to modify
-      host,
-      // Module name to insert
-      'NgxOktaAuthModule',
-      // project name for import statement
-      'ngx-okta-auth',
-      // project to be modified
-      project
-    );
+    dependencies.forEach(dependency => {
+      addPackageJsonDependency(host, dependency);
+      context.logger.log('info', `✅️ Added "${dependency.name}" into ${dependency.type}`);
+    });
 
-    // return updated tree
     return host;
   };
+}
+
+function installPackageJsonDependencies(): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    context.addTask(new NodePackageInstallTask());
+    context.logger.log('info', `🔍 Installing packages...`);
+
+    return host;
+  };
+}
+
+function addModuleToImports(options: Schema): Rule {
+  return (host: Tree, context: SchematicContext) => {
+    const workspace = getWorkspace(host);
+    const project = getProjectFromWorkspace(
+      workspace,
+      // Takes the first project in case it's not provided by CLI
+      options.project ? options.project : Object.keys(workspace['projects'])[0]
+    );
+    const moduleName = 'NgxOktaAuthModule';
+
+    addModuleImportToRootModule(host, moduleName, 'ngx-okta-auth', project);
+    context.logger.log('info', `✅️ "${moduleName}" is imported`);
+
+    return host;
+  };
+}
+
+function addPolyfillToScripts(options: Schema) {
+  return (host: Tree, context: SchematicContext) => {
+    const polyfillName = 'custom-elements';
+    const polyfillPath = 'node_modules/@webcomponents/custom-elements/src/native-shim.js';
+
+    try {
+      const angularJsonFile = host.read('angular.json');
+
+      if (angularJsonFile) {
+        const angularJsonFileObject = JSON.parse(angularJsonFile.toString('utf-8'));
+        const project = options.project ? options.project : Object.keys(angularJsonFileObject['projects'])[0];
+        const projectObject = angularJsonFileObject.projects[project];
+        const targets = projectObject.targets ? projectObject.targets : projectObject.architect;
+        const scripts = targets.build.options.scripts;
+
+        scripts.push({
+          input: polyfillPath
+        });
+        host.overwrite('angular.json', JSON.stringify(angularJsonFileObject, null, 2));
+      }
+    } catch (e) {
+      context.logger.log('error', `🚫 Failed to add the polyfill "${polyfillName}" to scripts`);
+    }
+
+    context.logger.log('info', `✅️ Added "${polyfillName}" polyfill to scripts`);
+
+    return host;
+  };
+}
+
+export default function(options: Schema): Rule {
+  return chain([
+    options && options.skipPackageJson ? noop() : addPackageJsonDependencies(),
+    options && options.skipPackageJson ? noop() : installPackageJsonDependencies(),
+    options && options.skipModuleImport ? noop() : addModuleToImports(options),
+    options && options.skipPolyfill ? noop() : addPolyfillToScripts(options)
+  ]);
 }
