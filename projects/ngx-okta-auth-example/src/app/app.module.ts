@@ -3,6 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgxOktaAuthModule } from 'ngx-okta-auth';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxOktaAuthModule,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

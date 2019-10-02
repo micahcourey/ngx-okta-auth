@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
       Hello {{name}}
     </p>
   `,
-  styles: [`p {color: green}`]
+  styles: [`p {color: red}`]
 })
 export class NgxOktaAuthComponent implements OnInit {
   @Input() public name: string;

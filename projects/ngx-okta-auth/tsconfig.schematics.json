@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "rootDir": "./schematics",
+    "outDir": "../../dist/ngx-okta-auth/schematics",
+    "lib": ["es2017", "dom"],
     "declaration": true,
     "module": "commonjs",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -14,22 +14,13 @@
     "noImplicitThis": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "rootDir": "schematics",
-    "outDir": "../../dist/ngx-okta-auth/schematics",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "strictNullChecks": true,
     "target": "es6",
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "types": ["node"]
   },
-  "include": [
-    "schematics/**/*"
-  ],
-  "exclude": [
-    "schematics/*/files/**/*"
-  ]
+  "include": ["schematics/**/*"],
+  "exclude": ["schematics/**/*.test.ts", "schematics/**/files/**/*"]
 }

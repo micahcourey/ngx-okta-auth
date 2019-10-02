@@ -1,16 +1,12 @@
 {
   "name": "ngx-okta-auth",
-  "version": "0.0.1",
-  "scripts": {
-    "build": "../../node_modules/.bin/tsc -p tsconfig.schematics.json",
-    "copy:schemas": "cp --parents schematics/*/schema.json ../../dist/ngx-okta-auth/",
-    "copy:files": "cp --parents -p schematics/*/files/** ../../dist/ngx-okta-auth/",
-    "copy:collection": "cp schematics/collection.json ../../dist/ngx-okta-auth/schematics/collection.json",
-    "postbuild": "npm run copy:schemas && npm run copy:files && npm run copy:collection"
-  },
-  "schematics": "./schematics/collection.json",
+  "version": "0.0.2",
+  "schematics": "./collection.json",
   "peerDependencies": {
     "@angular/common": "^8.2.8",
     "@angular/core": "^8.2.8"
+  },
+  "dependencies": {
+    "schematics-utilities": "^1.1.3"
   }
 }
