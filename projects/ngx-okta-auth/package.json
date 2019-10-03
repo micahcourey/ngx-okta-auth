@@ -1,6 +1,6 @@
 {
   "name": "ngx-okta-auth",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "schematics": "./collection.json",
   "peerDependencies": {
     "@angular/common": "^8.2.8",

@@ -15,8 +15,8 @@ function addPackageJsonDependencies(): Rule {
   return (host: Tree, context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       { type: NodeDependencyType.Default, version: '~8.2.8', name: '@angular/elements' },
-      { type: NodeDependencyType.Default, version: '~1.1.0', name: '@webcomponents/custom-elements' },
-      { type: NodeDependencyType.Default, version: '^0.0.2', name: 'ngx-okta-auth' }
+      { type: NodeDependencyType.Default, version: '~1.7.2', name: 'document-register-element' },
+      { type: NodeDependencyType.Default, version: '^0.0.6', name: 'ngx-okta-auth' }
     ];
 
     dependencies.forEach(dependency => {
@@ -57,7 +57,7 @@ function addModuleToImports(options: Schema): Rule {
 function addPolyfillToScripts(options: Schema) {
   return (host: Tree, context: SchematicContext) => {
     const polyfillName = 'custom-elements';
-    const polyfillPath = 'node_modules/@webcomponents/custom-elements/src/native-shim.js';
+    const polyfillPath = 'node_modules/document-register-element/build/document-register-element.js';
 
     try {
       const angularJsonFile = host.read('angular.json');
