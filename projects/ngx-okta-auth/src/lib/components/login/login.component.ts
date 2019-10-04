@@ -25,20 +25,6 @@ export class LoginComponent implements OnInit {
     });
     this.signIn = oktaService;
 
-    // // Show the widget when prompted, otherwise remove it from the DOM.
-    // router.events.forEach(event => {
-    //   if (event instanceof NavigationStart) {
-    //     switch(event.url) {
-    //       case '/login':
-    //         break;
-    //       case '/protected':
-    //         break;
-    //       default:
-    //         this.widget.remove();
-    //         break;
-    //     }
-    //   }
-    // });
   }
 
   ngOnInit() {
@@ -47,7 +33,7 @@ export class LoginComponent implements OnInit {
       (res) => {
         if (res.status === 'SUCCESS') {
           console.log(res.session.token)
-          // this.signIn.loginRedirect('/', { sessionToken: res.session.token });
+
           this.widget.hide();
           this.onSuccess.emit(res.session.token);
      
