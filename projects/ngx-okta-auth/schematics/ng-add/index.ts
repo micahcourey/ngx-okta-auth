@@ -18,7 +18,7 @@ function addPackageJsonDependencies(): Rule {
       { type: NodeDependencyType.Default, version: '~1.7.2', name: 'document-register-element' },
       { type: NodeDependencyType.Default, version: '^1.2.2', name: '@okta/okta-angular' },
       { type: NodeDependencyType.Default, version: '^3.3.0', name: '@okta/okta-signin-widget' },
-      { type: NodeDependencyType.Default, version: '^0.0.8', name: 'ngx-okta-auth' }
+      { type: NodeDependencyType.Default, version: '^0.0.9', name: 'ngx-okta-auth' }
     ];
 
     dependencies.forEach(dependency => {
