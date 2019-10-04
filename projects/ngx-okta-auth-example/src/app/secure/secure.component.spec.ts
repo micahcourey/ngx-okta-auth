@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxOktaAuthComponent } from './ngx-okta-auth.component';
+import { SecureComponent } from './secure.component';
 
-describe('NgxOktaAuthComponent', () => {
-  let component: NgxOktaAuthComponent;
-  let fixture: ComponentFixture<NgxOktaAuthComponent>;
+describe('SecureComponent', () => {
+  let component: SecureComponent;
+  let fixture: ComponentFixture<SecureComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgxOktaAuthComponent ]
+      declarations: [ SecureComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgxOktaAuthComponent);
+    fixture = TestBed.createComponent(SecureComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

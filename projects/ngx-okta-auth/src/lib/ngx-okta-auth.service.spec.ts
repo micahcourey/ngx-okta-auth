@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgxOktaAuthService } from './ngx-okta-auth.service';
-
 describe('NgxOktaAuthService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 

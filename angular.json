@@ -5,6 +5,11 @@
   "projects": {
     "ngx-okta-auth": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "projects/ngx-okta-auth",
       "sourceRoot": "projects/ngx-okta-auth/src",
       "prefix": "auth",

@@ -1,19 +1,14 @@
-import { NgModule, Injector } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { createCustomElement } from '@angular/elements';
-
-import { NgxOktaAuthComponent } from './ngx-okta-auth.component';
-
-
+import { OktaAuthModule } from '@okta/okta-angular';
 
 @NgModule({
-  imports: [ CommonModule ],
-  declarations: [ NgxOktaAuthComponent ],
-  entryComponents: [ NgxOktaAuthComponent ]
+  imports: [ 
+    CommonModule, 
+    OktaAuthModule
+  ],
+  exports: [  
+    OktaAuthModule 
+  ]
 })
-export class NgxOktaAuthModule { 
-  constructor(private injector: Injector) {
-    const ngxOktaAuthElement = createCustomElement(NgxOktaAuthComponent, { injector });
-    customElements.define('okta-auth', ngxOktaAuthElement);
-  }
-}
+export class NgxOktaAuthModule { }

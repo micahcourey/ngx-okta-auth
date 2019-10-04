@@ -2,8 +2,14 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-okta-auth",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@okta/okta-angular": "okta-angular",
+      "@okta/okta-signin-widget": "okta-signin-widget"
+    },
+    "styleIncludePaths": ["../../node_modules"]
   },
+  
   "whitelistedNonPeerDependencies": [
     "schematics-utilities"
   ]
