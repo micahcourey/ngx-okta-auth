@@ -16,7 +16,9 @@ function addPackageJsonDependencies(): Rule {
     const dependencies: NodeDependency[] = [
       { type: NodeDependencyType.Default, version: '~8.2.8', name: '@angular/elements' },
       { type: NodeDependencyType.Default, version: '~1.7.2', name: 'document-register-element' },
-      { type: NodeDependencyType.Default, version: '^0.0.6', name: 'ngx-okta-auth' }
+      { type: NodeDependencyType.Default, version: '^1.2.2', name: '@okta/okta-angular' },
+      { type: NodeDependencyType.Default, version: '^3.3.0', name: '@okta/okta-signin-widget' },
+      { type: NodeDependencyType.Default, version: '^0.0.8', name: 'ngx-okta-auth' }
     ];
 
     dependencies.forEach(dependency => {
@@ -45,10 +47,15 @@ function addModuleToImports(options: Schema): Rule {
       // Takes the first project in case it's not provided by CLI
       options.project ? options.project : Object.keys(workspace['projects'])[0]
     );
-    const moduleName = 'NgxOktaAuthModule';
+    const modules = [
+      {moduleName: 'NgxOktaAuthModule', packageName: 'ngx-okta-auth'}, 
+      {moduleName: 'LoginModule', packageName: 'ngx-okta-auth'}
+    ];
 
-    addModuleImportToRootModule(host, moduleName, 'ngx-okta-auth', project);
-    context.logger.log('info', `✅️ "${moduleName}" is imported`);
+    for (let module of modules) {
+      addModuleImportToRootModule(host, module.moduleName, module.packageName, project);
+      context.logger.log('info', `✅️ "${module.moduleName}" imported`);
+    }
 
     return host;
   };
